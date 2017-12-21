@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "######################################\n# Forecasting Models with R          #\n# 2. Simple Forecasting Methods      #\n# (c) Diego Fernandez Garcia 2016    #\n# www.exfinsis.com                   #\n######################################\n\n# 1.1. Load R packages \nlibrary(\"forecast\")\nlibrary(\"tseries\")\n\n# 1.2. Set working directory\n# getwd()\n# setwd(\"C:/.../Forecasting Models with R\")\n\n# 1.3. Read .CSV file\nx <- read.csv(\"Apple_Daily.csv\",header=T)\n# plot(x, type=\"l\",main=\"Daily Apple Stock Prices 10/2014-10/2015\",ylab=\"Level\",xlab=\"Day\")\n\n# 1.4. Delimit training range\nxt <- window(x[,2],end=252)\n# plot(xt, type=\"l\",main=\"Daily Apple Stock Prices 10/2014-09/2015\",ylab=\"Level\",xlab=\"Day\",xlim=c(1,274))\n\n# 1.5. Delimit forecasting test range\nxf <- window(x[,2],start=253)\n# plot(xf, type=\"l\",main=\"Daily Apple Stock Prices 10/2015\",ylab=\"Level\",xlab=\"Day\")\n\n# 1.6. Automatic script run\n# For .txt file\n## Ctrl + A and paste in console\n# For .R file\n## source(\"1. Forecasting Models Data.R\",echo=T)\n\n#########\n\n# 2.1. Arithmetic Mean\nmean <- meanf(xt,h=22)\nplot(mean,main=\"Arithmetic Mean Method\",ylab=\"Level\",xlab=\"Day\")\n# Original Data\nlines(x)\n#summary(mean)\n\n# 2.2. Naive or Random Walk Method -- same output\nrw1 <- naive(xt,h=22)\nrw2 <- rwf(xt,h=22)\nplot(rw1,main=\"Na?ve or Random Walk Method 1\",ylab=\"Level\",xlab=\"Day\")\nplot(rw2,main=\"Na?ve or Random Walk Method 2\",ylab=\"Level\",xlab=\"Day\")\nlines(x)\n\n# 2.3. Seasonal Random Walk Method\nsrw <- snaive(xt,h=22)\nplot(srw,main=\"Seasonal Naive Method\",ylab=\"Level\",xlab=\"Day\")\nlines(x)\nsummary(srw)\n\n\n# 2.4. Random Walk with Drift Method\nrwd <- rwf(xt,drift=T,h=22)\nplot(rwd,main=\"Random Walk with Drift Method\",ylab=\"Level\",xlab=\"Day\")\nlines(x)\n\n# 2.5. Forecasting Accuracy\n# Training set = Data from 1 to 252 (1/oct/2014 - 29/sep/2015)\n# Test set = Data form 253 to 274 (1/oct/2015 - 30/oct/2015)\naccuracy(mean,xf)\naccuracy(rw1,xf)\naccuracy(srw,xf)\naccuracy(rwd,xf)\n\n##########",
+    "created" : 1511792285133.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1154500745",
+    "id" : "B4C435B4",
+    "lastKnownWriteTime" : 1511793872,
+    "last_content_update" : 1511793872605,
+    "path" : "~/Training/Forecasting-models-in-r/2.Simple-Forecasting-Methods.R",
+    "project_path" : "2.Simple-Forecasting-Methods.R",
+    "properties" : {
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

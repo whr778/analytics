@@ -41,25 +41,25 @@ public class DrunkDriverDecisionTree {
         DecisionTree decisionTree = new DecisionTree();
 
         // Create a new DecisionTree root node
-        DecisionTreeNode flu = decisionTree.addRoot("DRUNK", 0.0f);
+        DecisionTreeNode drunk = decisionTree.addRoot("DRUNK", 0.0f);
 
         // 3 in 1000 or .3% or .003 of people will drive drunk
-        DecisionTreeNode yesFlu = flu.addYesEdge("DRUNK.YES_DRUNK", probabilityOfTheDriverBeingDrunk).addChild("DRUNK.YES_DRUNK");
+        DecisionTreeNode yesDrunk = drunk.addYesEdge("DRUNK.YES_DRUNK", probabilityOfTheDriverBeingDrunk).addChild("DRUNK.YES_DRUNK");
 
         // 997 in 1000 or 99.7% or .997 of people will not drive drunk
-        DecisionTreeNode noFlu = flu.addNoEdge("DRUNK.NOT_DRUNK", probabilityOfTheDriverNotBeingDrunk).addChild("FLU.DRUNK.NOT_DRUNK");
+        DecisionTreeNode notDrunk = drunk.addNoEdge("DRUNK.NOT_DRUNK", probabilityOfTheDriverNotBeingDrunk).addChild("FLU.DRUNK.NOT_DRUNK");
 
         // True Positive -- Event A -- The breathalyzer reports drunk when a driver is drunk 98% of the time
-        yesFlu.addYesEdge("DRUNK.YES_DRUNK.PREDICT_YES", probabilityOfATruePositive).addChild("TRUE POSITIVE POSTERIOR");
+        yesDrunk.addYesEdge("DRUNK.YES_DRUNK.PREDICT_YES", probabilityOfATruePositive).addChild("TRUE POSITIVE POSTERIOR");
 
         // False Negative -- The breathalyzer incorrectly reports not drunk when a person is drunk 2% or .02 of the time
-        yesFlu.addNoEdge("DRUNK.YES_DRUNK.PREDICT_NO", probabilityOfAFalseNegative).addChild("FALSE NEGATIVE POSTERIOR");
+        yesDrunk.addNoEdge("DRUNK.YES_DRUNK.PREDICT_NO", probabilityOfAFalseNegative).addChild("FALSE NEGATIVE POSTERIOR");
 
         // False Positive -- The breathalyzer incorrectly reports a not drunk person is drunk 4% or .04 of the time
-        noFlu.addYesEdge("DRUNK.NOT_DRUNK.PREDICT_YES", probabilityOfAFalsePositive).addChild("FALSE POSITIVE POSTERIOR");
+        notDrunk.addYesEdge("DRUNK.NOT_DRUNK.PREDICT_YES", probabilityOfAFalsePositive).addChild("FALSE POSITIVE POSTERIOR");
 
         // True Negative -- The breathalyzer correctly reports a not drunk person is not drunk 96% or .96 of the time
-        noFlu.addNoEdge("DRUNK.NOT_DRUNK.PREDICT_NO",  probabilityOfATrueNegative).addChild("TRUE NEGATIVE POSTERIOR");
+        notDrunk.addNoEdge("DRUNK.NOT_DRUNK.PREDICT_NO",  probabilityOfATrueNegative).addChild("TRUE NEGATIVE POSTERIOR");
 
         // Compute the probabilities on the leaves
         decisionTree.computePosteriors();

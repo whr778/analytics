@@ -70,6 +70,26 @@ public class DecisionTreeNode {
         }
     }
 
+    // Traversal compute values of leaves with no children
+    /**
+     * Computes leaf probabilities if we have a parent and grandparent edges
+     */
+    public void printNodes() {
+
+        if (value > 0.0f) {
+            System.out.println(name + " " + value);
+        }
+
+        // Is this a leaf?
+        if (yesEdge != null && noEdge != null) {
+            System.out.println(yesEdge.getName() + " " + yesEdge.getValue());
+            yesEdge.getChild().printNodes();
+
+            System.out.println(noEdge.getName() + " " + noEdge.getValue());
+            noEdge.getChild().printNodes();
+        }
+    }
+
 
 
     /**

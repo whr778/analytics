@@ -65,13 +65,15 @@ public class TheFluAndDecisionTree {
         decisionTree.computePosteriors();
 
         // Event B -- is the Yes edge leaves
-        float probabilityOfFluWhenAppPredictedFluBySymptoms = decisionTree.sumYesLeaves();
+        float probabilityThatTheAppWillPredictFlu = decisionTree.sumYesLeaves();
 
-        Bayes bayes = new Bayes(probabilityOfATruePositive, probabilityOfHavingTheFlu, probabilityOfFluWhenAppPredictedFluBySymptoms);
+        Bayes bayes = new Bayes(probabilityOfATruePositive, probabilityOfHavingTheFlu, probabilityThatTheAppWillPredictFlu);
 
         // This is P(A|B)
         float probabilityOfHavingFluGivenTheAppPredictedFlu = bayes.computePosterior();
 
         System.out.println(probabilityOfHavingFluGivenTheAppPredictedFlu * 100 +"% Posterior probability of having the flu, given the symptoms, and the app predicted you have the flu");
+
+        decisionTree.printNodes();
     }
 }

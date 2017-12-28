@@ -1,8 +1,8 @@
 /**
  * --  Scenario taken from Bayes Theorem by Dan Morris
- * A person is pulled over, breathalized, and processed as drunk
+ * A person is pulled over, breathalyzed, tested positive, and processed as drunk
  *
- * Your partner doesn't think the breathalyzar is accurate
+ * Your partner doesn't believe that the breathalyzer is accurate
  *
  * Hypothesis:
  *  Person is drunk and the breathalyzer test is positive
@@ -14,9 +14,8 @@
  */
 public class DrunkDriver {
 
-
     public static void main(String [] args) {
-        // People with the flu will have a headache and sore throat ~ 90% of the time
+        // Probability that the test gave a positive and the driver is truly drunk
         float probabilityOfAPositiveGivenThatTheDriverIsDrunk = 1.0f;
 
         //(Event A) Only 1 in 1000 drivers are typically drunk, or .001
@@ -28,6 +27,6 @@ public class DrunkDriver {
         Bayes bayes = new Bayes(probabilityOfAPositiveGivenThatTheDriverIsDrunk, probabilityOfADrunkDriver, probabilityOfAPositiveTest);
         float probabilityOfBeingDrunkGivenAPositiveTest = bayes.computePosterior();
 
-        System.out.println("Posterior probability of being drunk given a prositive test: "+probabilityOfBeingDrunkGivenAPositiveTest);
+        System.out.println("Posterior probability of being drunk given a positive test: "+probabilityOfBeingDrunkGivenAPositiveTest);
     }
 }

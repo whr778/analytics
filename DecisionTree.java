@@ -87,6 +87,10 @@ public class DecisionTree {
         return nodeMap.get(name);
     }
 
+    public void printNodes() {
+        root.printNodes();
+    }
+
     // sum All Yes
 
 

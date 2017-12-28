@@ -1,4 +1,5 @@
 /**
+ * --  Scenario taken from Bayes Theorem by Dan Morris
  * A peacekeeper is pinned down trying to help an injured family,
  * A truck is approaching, but you can't see if it has a gun or not
  * A wave of bullets hit the front of the vehicle your are taking cover behind

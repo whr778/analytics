@@ -1,5 +1,7 @@
 /**
  *
+ * --  Scenario taken from Bayes Theorem by Dan Morris
+ *
  * You feel sick, coworkers were recently sick with the flu
  * You have a headache and sore throat and 90% of people with the flu have the same symptoms
  * Does this mean you have the flu?

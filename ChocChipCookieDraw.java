@@ -1,4 +1,5 @@
 /**
+ * --  Scenario taken from Bayes Theorem by Dan Morris
  * Bayes Theorem
  *
  * Two Boxes with cookies

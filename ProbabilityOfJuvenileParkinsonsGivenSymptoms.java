@@ -224,8 +224,6 @@ public class ProbabilityOfJuvenileParkinsonsGivenSymptoms {
 
     public static void main(String [] args) {
 
-        // This is P(B|A) People with the parkinsons will have a headache and sore throat ~ 90% of the time
-        //float probabilityOfSymptomsGivenThatItIsFlu = 0.9f;
         // P(B|A)People with the parkinsons will have 24 of the 27 symptoms 88.8 percent of the time
         // P(B|A)People with the parkinsons will have 25 of the 27 symptoms 92.5 percent of the time
         // Parkinsons will present most of the symptoms in final stages but not always (other) dementia or psychosis

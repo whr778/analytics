@@ -265,8 +265,8 @@ public class ProbabilityOfJuvenileParkinsonsGivenSymptoms {
         // 26 total symptoms + 1 MRI anomaly
         float totalPossibleSymptoms = preStageSymptoms+earlyStageSymptoms+moderateStageSymptoms+advancedStageSymptoms+otherSymptoms+mriIdentificationSubstantiaNigra;
 
-        // How many symptoms does the subject have? 19
-        // 19 / 16 = 0.7307692307692308
+        // How many symptoms is the subject presenting? 19
+        // 19 / 26 = 0.7307692307692308
         float totalSubjectSymptoms = preStageSymptomsSubject
                 + earlyStageSymptomsSubject
                 + moderateStageSymptomsSubject

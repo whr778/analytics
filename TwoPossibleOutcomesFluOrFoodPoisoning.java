@@ -69,17 +69,10 @@ public class TwoPossibleOutcomesFluOrFoodPoisoning {
 
         // The probability of having the food poisoning is only .16
         float probabilityOfHavingTheFoodPoisoning = 0.16f;
-
-
+        
         Bayes bayesFoodPoisoning = new Bayes(probabilityOfSymptomsGivenThatItIsFoodPoisoning, probabilityOfHavingTheFoodPoisoning, probabilitySymptomsHeadacheAndSoreThroat);
         float probabilityOfHavingFoodPoisoningGivenTheSymptoms = bayesFoodPoisoning.computePosterior();
 
         System.out.println(probabilityOfHavingFoodPoisoningGivenTheSymptoms * 100 + "% Posterior probability of having the food poisoning given the symptoms: ");
-
-
-
     }
-
-
-
 }

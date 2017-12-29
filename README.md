@@ -2,8 +2,10 @@
 
 I am just getting organized ... Eventually I would like to reorganize this by topic: Regression, Classification, Clustering, Anomaly Detection, PCA, Recommender, CNN, Capsule NN, etc with M, R, Python, and Java code 
 
-## Statistics and adv probability
+## Statistics and Probability
 This will be the R and excel code from several classes I took
+Statistics for Business Analytics A-Z™  https://www.udemy.com/data-statistics/learn/v4/overview
+Workshop in Probability and Statistics https://www.udemy.com/statshelp/learn/v4/overview
 
 ## R programming
 This is from R Programming A-Z™: R For Data Science https://www.udemy.com/r-programming/learn/v4/overview

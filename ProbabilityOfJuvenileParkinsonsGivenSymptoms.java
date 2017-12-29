@@ -1,4 +1,10 @@
 /**
+ *
+ * This is completely unverified and is likely full of errors.  Do not reference this... yet.
+ *
+ * Work in Progress.
+ *
+ *
  * Parkinson’s comes with two main buckets of possible symptoms.
  * One affects your ability to move and leads to motor issues like tremors and rigid muscles.
  * The other bucket has non-motor symptoms, like pain, loss of smell, and dementia.
@@ -74,7 +80,7 @@
  *
  * Bill's Notes: Might need a decision tree to find probability of patients < age 60
  *
- * NIH -- Good stat!
+ * NIH -- Good stat! Use this!!
  * Parkinson disease affects more than 1 million people in North America and more than 4 million people worldwide.
  * In the United States, Parkinson disease occurs in approximately 13 per 100,000 people, and about 60,000 new cases
  * are identified each year.
@@ -98,7 +104,7 @@
  * Let's say .90 of people given that they have parkinsons will be sporadic
  *
  *
- *
+ * https://radiopaedia.org/articles/parkinson-disease-1
  * Epidemiology
  * Parkinson disease is by far the most common cause of the parkinsonian syndrome, accounting for approximately 80% of
  * cases (the remainder being due to other neurodegenerative disease, such as Lewy body dementia) 1.
@@ -129,13 +135,15 @@
  *     T2* (GE/SWI)
  *      absent swallow tail sign
  *       nigrosome-1 is usually SWI hyperintense but this is lost in Parkinson disease
- *  reported diagnostic accuracy of over 90%, with a 100% sensitivity and negative predictive value, 95% specificity, and 69% positive predictive value being reported in one study 12
- *  may show loss of normal susceptibility signal drop-out of the substantia nigra and red nuclei (due to loss of melanin containing neurons)
+ *  reported diagnostic accuracy of over 90%, with a 100% sensitivity and negative predictive value,
+ *  95% specificity, and 69% positive predictive value being reported in one study 12
+ *  may show loss of normal susceptibility signal drop-out of the substantia nigra and red nuclei (due to loss of
+ *  melanin containing neurons)
  *  dot-like areas of hyperintensity in the compact part of the substantia nigra 1
  *  may show confluence of the normal hypointense regions of substantia nigra (due to iron accumulation) 1
  *  Recent studies with high Tesla MRI (7T) have shown promising results regarding both sensitivity and specificity 4-5.
  *
- *  Similar
+ * Similar
  * https://radiopaedia.org/articles/dementia-with-lewy-bodies
  * https://radiopaedia.org/articles/kufor-rakeb-syndrome
  *
@@ -155,7 +163,7 @@
  *
  *
  * South korean research paper
- *  stem-cell 80% success in cure
+ *  stem-cell 80% success in cure.. need to grab link and post here
  *
  *  Texas research institute
  *  https://stemcellstransplantinstitute.com/dallas-texas/
@@ -169,6 +177,37 @@
  *
  *
  *
+ * 0.08339804% Posterior probability of having the parkinsons, given the symptoms
+ * 6.4152336 times  more likely than the population
+ * PARKINSONS.YES_PARKINSONS 1.3E-4
+ * PARKINSONS.YES_PARKINSONS.PREDICT_YES 0.962963
+ * TRUE POSITIVE POSTERIOR 1.251852E-4
+ * PARKINSONS.YES_PARKINSONS.PREDICT_NO 0.037037015
+ * FALSE NEGATIVE POSTERIOR 4.8148117E-6
+ * PARKINSONS.NO_PARKINSONS 0.99987
+ * PARKINSONS.NO_PARKINSONS.PREDICT_YES 0.15
+ * FALSE POSITIVE POSTERIOR 0.1499805
+ * PARKINSONS.NO_PARKINSONS.PREDICT_NO 0.85
+ * TRUE NEGATIVE POSTERIOR 0.8498895
+ *
+ * Using the study rate of 88%
+ * 0.07621844% Posterior probability of having the parkinsons, given the symptoms
+ * 5.862957 times more likely than the population
+ * PARKINSONS.YES_PARKINSONS 1.3E-4
+ * PARKINSONS.YES_PARKINSONS.PREDICT_YES 0.88
+ * TRUE POSITIVE POSTERIOR 1.144E-4
+ * PARKINSONS.YES_PARKINSONS.PREDICT_NO 0.120000005
+ * FALSE NEGATIVE POSTERIOR 1.56E-5
+ * PARKINSONS.NO_PARKINSONS 0.99987
+ * PARKINSONS.NO_PARKINSONS.PREDICT_YES 0.15
+ * FALSE POSITIVE POSTERIOR 0.1499805
+ * PARKINSONS.NO_PARKINSONS.PREDICT_NO 0.85
+ * TRUE NEGATIVE POSTERIOR 0.8498895
+ *
+ * Not too much difference 6.4 times more likely than the population,
+ * Using the study data 5.8 more likely than the population
+ *
+ * Does this warrant the subject seeing a Neurologist based on the symptoms.  I would say yes.
  */
 public class ProbabilityOfJuvenileParkinsonsGivenSymptoms {
 
@@ -207,7 +246,8 @@ public class ProbabilityOfJuvenileParkinsonsGivenSymptoms {
 
         float probabilityOfHavingParkinsons = 0.00013f;
         float probabilityOfNotHavingParkinsons = 1 -  probabilityOfHavingParkinsons;
-        float probabilityOfATruePositive = 26.0f / totalPossibleSymptoms ; // ~96% ... Whereas the study showed 88%
+//        float probabilityOfATruePositive = 26.0f / totalPossibleSymptoms ; // ~96% ... Whereas the study showed 88%
+        float probabilityOfATruePositive = 0.88f ; // Use the study ... Whereas the study showed 88%
         float probabilityOfAFalseNegative = 1 - probabilityOfATruePositive; //
 
         // http://jnnp.bmj.com/content/73/5/529
@@ -250,7 +290,7 @@ public class ProbabilityOfJuvenileParkinsonsGivenSymptoms {
         float probabilityOfHavingParkinsonsGivenTheSymptoms = bayes.computePosterior();
 
         System.out.println(probabilityOfHavingParkinsonsGivenTheSymptoms * 100 +"% Posterior probability of having the parkinsons, given the symptoms");
-        System.out.println((probabilityOfHavingParkinsonsGivenTheSymptoms / probabilityOfHavingParkinsons) + " times greater probability than the population");
+        System.out.println((probabilityOfHavingParkinsonsGivenTheSymptoms / probabilityOfHavingParkinsons) + " times more likely than the population");
 
         decisionTree.printNodes();
 

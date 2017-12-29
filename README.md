@@ -20,6 +20,9 @@ This is from Machine Learning A-Z™: Hands-On Python & R https://www.udemy.com/
 ## Machine Learning
 This is from The Complete Machine Learning Course with Python https://www.udemy.com/machine-learning-course-with-python/learn/v4/overview
 
+## Forcasting
+Forecasting Models with R https://www.udemy.com/forecasting-models-with-r/learn/v4/content
+
 ## Andrew Ng Coursera Machine Learning
 Will NOT post code as promised in course agreement... however it all works, got 103% in the course.
 

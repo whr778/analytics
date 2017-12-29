@@ -47,7 +47,7 @@ public class DrunkDriverDecisionTree {
         DecisionTreeNode yesDrunk = drunk.addYesEdge("DRUNK.YES_DRUNK", probabilityOfTheDriverBeingDrunk).addChild("DRUNK.YES_DRUNK");
 
         // 997 in 1000 or 99.7% or .997 of people will not drive drunk
-        DecisionTreeNode notDrunk = drunk.addNoEdge("DRUNK.NOT_DRUNK", probabilityOfTheDriverNotBeingDrunk).addChild("FLU.DRUNK.NOT_DRUNK");
+        DecisionTreeNode notDrunk = drunk.addNoEdge("DRUNK.NOT_DRUNK", probabilityOfTheDriverNotBeingDrunk).addChild("DRUNK.NOT_DRUNK");
 
         // True Positive -- Event A -- The breathalyzer reports drunk when a driver is drunk 98% of the time
         yesDrunk.addYesEdge("DRUNK.YES_DRUNK.PREDICT_YES", probabilityOfATruePositive).addChild("TRUE POSITIVE POSTERIOR");

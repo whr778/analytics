@@ -208,6 +208,25 @@
  * Using the study data 5.8 more likely than the population
  *
  * Does this warrant the subject seeing a Neurologist based on the symptoms.  I would say yes.
+ *
+ *
+ * How about using the number of symptoms the subject has divided by the total number of symptoms?
+ * C:\Users\N35457.US\java\bin\java -agentlib:jdwp=transport=dt_socket,address=127.0.0.1:56135,suspend=y,server=n -Dfile.encoding=UTF-8 -classpath "C:\Users\N35457.US\IdeaProjects\untitled\out\production\untitled;C:\Users\N35457.US\IntelliJ IDEA Community Edition 2017.2.1\lib\idea_rt.jar" ProbabilityOfJuvenileParkinsonsGivenSymptoms
+ *  Connected to the target VM, address: '127.0.0.1:56135', transport: 'socket'
+ *  0.063301474% Posterior probability of having the parkinsons, given the symptoms
+ *  4.8693438 times more likely than the population
+ *  PARKINSONS.YES_PARKINSONS 1.3E-4
+ *  PARKINSONS.YES_PARKINSONS.PREDICT_YES 0.7307692
+ *  TRUE POSITIVE POSTERIOR 9.4999996E-5
+ *  PARKINSONS.YES_PARKINSONS.PREDICT_NO 0.26923078
+ *  FALSE NEGATIVE POSTERIOR 3.5E-5
+ *  PARKINSONS.NO_PARKINSONS 0.99987
+ *  PARKINSONS.NO_PARKINSONS.PREDICT_YES 0.15
+ *  FALSE POSITIVE POSTERIOR 0.1499805
+ *  PARKINSONS.NO_PARKINSONS.PREDICT_NO 0.85
+ *  TRUE NEGATIVE POSTERIOR 0.8498895
+ *
+ *
  */
 public class ProbabilityOfJuvenileParkinsonsGivenSymptoms {
 
@@ -218,9 +237,7 @@ public class ProbabilityOfJuvenileParkinsonsGivenSymptoms {
 
     // P(A|B) = ( P(B|A) P(A) ) / P(B)
     // P(PARKINSONS|SYMPTOMS) = ( P(SYMPTOMS|PARKINSONS) P(PARKINSONS) ) / P(SYMPTOMS)
-    // P(PARKINSONS|SYMPTOMS) = ( P(SYMPTOMS|PARKINSONS) P(.00013) ) / P(SYMPTOMS)
-
-
+    // P(PARKINSONS|SYMPTOMS) = ( P(.88) P(.00013) ) / P(SYMPTOMS)
 
     public static void main(String [] args) {
 
@@ -233,25 +250,51 @@ public class ProbabilityOfJuvenileParkinsonsGivenSymptoms {
         float earlyStageSymptoms = 7.0f;
         float moderateStageSymptoms = 7.0f;
         float advancedStageSymptoms = 4.0f;
-        float otherSymptoms = 2.0f;
+        float otherSymptoms = 1.0f; // Two possible You can only have 1 of these the words used were OR
         float mriIdentificationSubstantiaNigra = 1.0f;
+
+
+        // Subject symptoms
+        float preStageSymptomsSubject = 5.0f;
+        float earlyStageSymptomsSubject = 5.0f;
+        float moderateStageSymptomsSubject = 6.0f;
+        float advancedStageSymptomsSubject = 2.0f;
+        float otherSymptomsSubject = 1.0f; // You can only have 1 of these the words used were OR
+        float mriIdentificationSubstantiaNigraSubject = 0.0f;
 
         // 26 total symptoms + 1 MRI anomaly
         float totalPossibleSymptoms = preStageSymptoms+earlyStageSymptoms+moderateStageSymptoms+advancedStageSymptoms+otherSymptoms+mriIdentificationSubstantiaNigra;
 
+        // How many symptoms does the subject have? 19
+        // 19 / 16 = 0.7307692307692308
+        float totalSubjectSymptoms = preStageSymptomsSubject
+                + earlyStageSymptomsSubject
+                + moderateStageSymptomsSubject
+                + advancedStageSymptomsSubject
+                + otherSymptomsSubject
+                + mriIdentificationSubstantiaNigraSubject;
 
-
-
+        // from NIH 13 out of 100,000 in the US will develop parkinson's
         float probabilityOfHavingParkinsons = 0.00013f;
         float probabilityOfNotHavingParkinsons = 1 -  probabilityOfHavingParkinsons;
-//        float probabilityOfATruePositive = 26.0f / totalPossibleSymptoms ; // ~96% ... Whereas the study showed 88%
-        float probabilityOfATruePositive = 0.88f ; // Use the study ... Whereas the study showed 88%
+
+
+        // P(B|A)
+        float probabilityOfATruePositive = totalSubjectSymptoms / totalPossibleSymptoms ; // ~96% ... Whereas the study showed 88%
+
+        // This begs the question if you have 25 out of 25 (24 + 1 other) actual symptoms does the subject have parkinson's?
+        // Not necessarily, but it may warrant an MRI to look at the substantia nigra for anomalies see radiology links
+        // above
+        // If the radiology reports dove tailing, then?  26 out of 26 -- Should this even be in here?
+
+
+//        float probabilityOfATruePositive = 0.88f ; // Use the study ... Whereas the study showed 88% correct diagnosis rate
         float probabilityOfAFalseNegative = 1 - probabilityOfATruePositive; //
 
         // http://jnnp.bmj.com/content/73/5/529
         // 15% false positive
-        float probabilityOfaFalsePositive = 0.15f;
-        float probabilityOfATrueNegative = 1 - probabilityOfaFalsePositive; // .85
+        float probabilityOfaFalsePositive = 0.15f; // From the study 15% false positive diagnosis rate
+        float probabilityOfATrueNegative = 1 - probabilityOfaFalsePositive; //.85
 
         DecisionTree decisionTree = new DecisionTree();
 
@@ -264,25 +307,28 @@ public class ProbabilityOfJuvenileParkinsonsGivenSymptoms {
         // 95% of the population will not get the parkinsons
         DecisionTreeNode noParkinsons = parkinsons.addNoEdge("PARKINSONS.NO_PARKINSONS", probabilityOfNotHavingParkinsons).addChild("PARKINSONS.NO_PARKINSONS");
 
-        // True Positive -- Event A -- The app correctly predicts a true positive 75% of the time
+        // True Positive -- Event A -- The doctor correctly diagnosis parkinsons
         yesParkinsons.addYesEdge("PARKINSONS.YES_PARKINSONS.PREDICT_YES", probabilityOfATruePositive).addChild("TRUE POSITIVE POSTERIOR");
 
-        // False Negative -- The app incorrectly predicts a person with parkinsons does not have the parkinsons 25% of the time
+        // False Negative -- The doctor incorrectly diagnosis a person with parkinsons
         yesParkinsons.addNoEdge("PARKINSONS.YES_PARKINSONS.PREDICT_NO", probabilityOfAFalseNegative).addChild("FALSE NEGATIVE POSTERIOR");
 
-        // False Positive -- The app incorrectly predicts a person has the parkinsons when they do not 20% of the time
+        // False Positive -- The doctor incorrectly diagnosis a person has parkinsons when they do not
         noParkinsons.addYesEdge("PARKINSONS.NO_PARKINSONS.PREDICT_YES", probabilityOfaFalsePositive).addChild("FALSE POSITIVE POSTERIOR");
 
-        // True Negative -- The app correctly predicts a person does not have the parkinsons when they do not 80% of the time
+        // True Negative -- The doctor correctly diagnosis a person does not have the parkinsons when they do not
         noParkinsons.addNoEdge("PARKINSONS.NO_PARKINSONS.PREDICT_NO",  probabilityOfATrueNegative).addChild("TRUE NEGATIVE POSTERIOR");
 
         // Compute the probabilities on the leaves
         decisionTree.computePosteriors();
 
         // Event B -- is the Yes edge leaves
-        float probabilityThatTheAppWillPredictFlu = decisionTree.sumYesLeaves();
+        // (.00013 * .88) =  0.0001144
+        // (0.99987 * .15) =   0.1499805
+        // 0.0001144 + 0.1499805 = 0.1500949
+        float probabilityOfParkinsonsSymptoms = decisionTree.sumYesLeaves();
 
-        Bayes bayes = new Bayes(probabilityOfATruePositive, probabilityOfHavingParkinsons, probabilityThatTheAppWillPredictFlu);
+        Bayes bayes = new Bayes(probabilityOfATruePositive, probabilityOfHavingParkinsons, probabilityOfParkinsonsSymptoms);
 
         // This is P(A|B)
         float probabilityOfHavingParkinsonsGivenTheSymptoms = bayes.computePosterior();
@@ -291,63 +337,5 @@ public class ProbabilityOfJuvenileParkinsonsGivenSymptoms {
         System.out.println((probabilityOfHavingParkinsonsGivenTheSymptoms / probabilityOfHavingParkinsons) + " times more likely than the population");
 
         decisionTree.printNodes();
-
-
-
-
-//        // P(B|A)People with the parkinsons will have 24 of the 27 symptoms 88.8 percent of the time
-//        // P(B|A)People with the parkinsons will have 25 of the 27 symptoms 92.5 percent of the time
-//        // Parkinsons will present most of the symptoms in final stages but not always (other) dementia or psychosis
-//        // So we are going to have to quantify the symptoms
-//
-//        float preStageSymptoms = 6.0f;
-//        float earlyStageSymptoms = 7.0f;
-//        float moderateStageSymptoms = 7.0f;
-//        float advancedStageSymptoms = 4.0f;
-//        float otherSymptoms = 2.0f;
-//        float mriIdentificationSubstantiaNigra = 1.0f;
-//
-//        // 26 total symptoms + 1 MRI anomaly
-//        float totalPossibleSymptoms = preStageSymptoms+earlyStageSymptoms+moderateStageSymptoms+advancedStageSymptoms+otherSymptoms+mriIdentificationSubstantiaNigra;
-//
-//
-//        // 70.3% of symptoms
-//        float preStageSymptomsSubject = 5.0f;
-//        float earlyStageSymptomsSubject = 5.0f;
-//        float moderateStageSymptomsSubject = 6.0f;
-//        float advancedStageSymptomsSubject = 2.0f;
-//        float otherSymptomsSubject = 1.0f;
-//        float mriIdentificationSubstantiaNigraSubject = 0.0f;
-//
-//        // 26 total symptoms + 1 MRI anomaly
-//        float totalSubjectSymptoms = preStageSymptomsSubject
-//                        + earlyStageSymptomsSubject
-//                        + moderateStageSymptomsSubject
-//                        + advancedStageSymptomsSubject
-//                        + otherSymptomsSubject
-//                        + mriIdentificationSubstantiaNigraSubject;
-//
-//
-//        // Generate a probability -- though these would likely be better if they were weighted
-//        float probabilityOfSymptomsGivenThatItIsParkinsons = (preStageSymptoms
-//                +earlyStageSymptoms
-//                +moderateStageSymptoms
-//                +advancedStageSymptoms
-//                +otherSymptoms
-//                +mriIdentificationSubstantiaNigra) / totalPossibleSymptoms;
-//
-//
-//        // The probability of having the parkinsons is only .00013
-//        float probabilityOfHavingParkinsons = 0.00013f;
-//
-//        // P(B) Subjects symptoms / total possible symptoms
-//        float probabilityParkinsonsSymptoms = totalSubjectSymptoms / totalPossibleSymptoms;
-//
-//        Bayes bayes = new Bayes(probabilityOfSymptomsGivenThatItIsParkinsons, probabilityOfHavingParkinsons, probabilityParkinsonsSymptoms);
-//        float probabilityOfHavingParkinsonsGivenTheSymptoms = bayes.computePosterior();
-//
-//        System.out.println(probabilityOfHavingParkinsonsGivenTheSymptoms * 100 + "% Posterior probability of having the Parkinson's given the symptoms");
-//        System.out.println((probabilityOfHavingParkinsonsGivenTheSymptoms / probabilityOfHavingParkinsons) + " times greater probability than the population");
-
     }
 }

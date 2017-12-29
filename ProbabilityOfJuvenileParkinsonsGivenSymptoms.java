@@ -174,9 +174,6 @@
  *
  *  http://repairstemcells.org/Resources/Parkinson-s-Therapy-Comparison-Guide.aspx
  *
- *
- *
- *
  * 0.08339804% Posterior probability of having the parkinsons, given the symptoms
  * 6.4152336 times  more likely than the population
  * PARKINSONS.YES_PARKINSONS 1.3E-4
@@ -211,8 +208,6 @@
  *
  *
  * How about using the number of symptoms the subject has divided by the total number of symptoms?
- * C:\Users\N35457.US\java\bin\java -agentlib:jdwp=transport=dt_socket,address=127.0.0.1:56135,suspend=y,server=n -Dfile.encoding=UTF-8 -classpath "C:\Users\N35457.US\IdeaProjects\untitled\out\production\untitled;C:\Users\N35457.US\IntelliJ IDEA Community Edition 2017.2.1\lib\idea_rt.jar" ProbabilityOfJuvenileParkinsonsGivenSymptoms
- *  Connected to the target VM, address: '127.0.0.1:56135', transport: 'socket'
  *  0.063301474% Posterior probability of having the parkinsons, given the symptoms
  *  4.8693438 times more likely than the population
  *  PARKINSONS.YES_PARKINSONS 1.3E-4
